@@ -38,3 +38,8 @@ Requirements :
 You need Java 11 or higher : https://www.java.com/en/download/manual.jsp
 https://confluence.atlassian.com/doc/setting-the-java_home-variable-in-windows-8895.html
 
+What's next ?
+-
+- Creating or deleting and hyperlane between two system
+- Adding wormholes
+- Adding species and leaders traits
