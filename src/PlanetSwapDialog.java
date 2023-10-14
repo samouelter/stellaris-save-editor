@@ -85,7 +85,7 @@ public class PlanetSwapDialog extends JFrame implements ActionListener {
         newPanel.add(exit, constraints);
 
         newPanel.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createEtchedBorder(), "Login Panel"));
+                BorderFactory.createEtchedBorder(), "Swap Window"));
 
         add(newPanel);
 

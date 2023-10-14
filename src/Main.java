@@ -5,7 +5,9 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        System.out.println("Created by samouelter");
+        System.out.println("Stellaris saveditor v1.0");
+        System.out.println("Made by samouelter");
+        System.out.println("https://github.com/samouelter/stellaris-save-editor");
 
         //Asking the user for his savefile
         FileUtils fileUtils = new FileUtils();
