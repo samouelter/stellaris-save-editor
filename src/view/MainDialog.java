@@ -1,3 +1,9 @@
+package view;
+
+import utils.ArchiveUtils;
+import utils.FileUtils;
+import view.HyperlaneDialog;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -5,6 +11,7 @@ import java.io.IOException;
 
 public class MainDialog extends JFrame implements ActionListener {
 
+    private final ArchiveUtils archiveUtils = new ArchiveUtils();
     private final FileUtils fileUtils = new FileUtils();
 
     private final String saveLocation;
@@ -40,6 +47,9 @@ public class MainDialog extends JFrame implements ActionListener {
         JButton swap = new JButton("Swap systems");
         swap.setActionCommand("swap");
         swap.addActionListener(this);
+        JButton hyperlane = new JButton("Hyperlane Editor");
+        hyperlane.setActionCommand("hyperlane");
+        hyperlane.addActionListener(this);
         JButton save = new JButton("Save");
         save.setActionCommand("save");
         save.addActionListener(this);
@@ -48,6 +58,7 @@ public class MainDialog extends JFrame implements ActionListener {
         exit.addActionListener(this);
 
         eastPanel.add(swap);
+        eastPanel.add(hyperlane);
         eastPanel.add(save);
         eastPanel.add(exit);
 
@@ -68,7 +79,8 @@ public class MainDialog extends JFrame implements ActionListener {
         if (command.equals("save")) {
             System.out.println("Saving");
             try {
-                fileUtils.zipFiles(saveLocation, newSaveName.getText());
+                archiveUtils.zipFiles(saveLocation, newSaveName.getText());
+                fileUtils.cleanUp(saveLocation);
                 System.out.println("Save " + newSaveName.getText() + " created at " + saveLocation);
                 System.out.println("Have a nice game :)");
                 dispose();
@@ -80,7 +92,16 @@ public class MainDialog extends JFrame implements ActionListener {
             System.out.println("Opening swapping window");
             new PlanetSwapDialog(saveLocation);
         }
+        if (command.equals("hyperlane")) {
+            System.out.println("Opening hyperlane window");
+            new HyperlaneDialog(saveLocation);
+        }
         if (command.equals("exit")) {
+            try {
+                fileUtils.cleanUp(saveLocation);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             System.out.println("Exited without saving");
             dispose(); // Close the dialog
         }

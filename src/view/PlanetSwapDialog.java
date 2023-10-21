@@ -1,3 +1,8 @@
+package view;
+
+import service.StarSystemService;
+import utils.FileUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -12,7 +17,7 @@ public class PlanetSwapDialog extends JFrame implements ActionListener {
     private String saveLocation;
     private String gamestateContent;
     private final FileUtils fileUtils = new FileUtils();
-    private final StarSystemUtils starSystemUtils = new StarSystemUtils();
+    private final StarSystemService starSystemService = new StarSystemService();
     JLabel planetALabel = new JLabel("ID Planet A");
     JLabel planetBLabel = new JLabel("ID Planet B");
     JTextField planetAId = new JTextField(4);
@@ -27,8 +32,8 @@ public class PlanetSwapDialog extends JFrame implements ActionListener {
 
         try {
             this.saveLocation = saveLocation;
-            gamestateContent = fileUtils.readFile(saveLocation +  "\\gamestate", StandardCharsets.UTF_8);
-            starSystems = starSystemUtils.toStarSystemList(gamestateContent);
+            gamestateContent = fileUtils.readGamestate(saveLocation +  "\\gamestate", StandardCharsets.UTF_8);
+            starSystems = starSystemService.toStarSystemList(gamestateContent);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             dispose();
@@ -106,7 +111,7 @@ public class PlanetSwapDialog extends JFrame implements ActionListener {
                     throw new Exception();
                 }
                 System.out.println("Swapping systems " + idA + " and " + idB);
-                gamestateContent = StarSystemUtils.swapStarSystem(gamestateContent,
+                gamestateContent = StarSystemService.swapStarSystem(gamestateContent,
                         idA, starSystems.get(idA),
                         idB, starSystems.get(idB)
                 );

@@ -1,3 +1,7 @@
+import utils.ArchiveUtils;
+import utils.FileUtils;
+import view.MainDialog;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -11,11 +15,12 @@ public class Main {
 
         //Asking the user for his savefile
         FileUtils fileUtils = new FileUtils();
-        String savefile = fileUtils.inputSaveFileLocation();
+        ArchiveUtils archiveUtils = new ArchiveUtils();
+        String savefile = fileUtils.chooseSaveFileLocation();
         String saveLocation = new File(savefile).getParent();
 
         //Getting the gamestate and meta file from the sav
-        fileUtils.unzipFile(savefile, saveLocation);
+        archiveUtils.unzipFile(savefile, saveLocation);
 
         //Lauching the editor window
         new MainDialog(savefile, saveLocation);

@@ -1,61 +1,17 @@
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
+package utils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
-public class FileUtils {
 
-
-    //Prompt for choosing the savefile to edit
-    public String inputSaveFileLocation() {
-        System.out.print("Selecting savefile\n");
-        String defaultPath = System.getProperty("user.home") + "\\Documents\\Paradox Interactive\\Stellaris\\save games";
-        JFileChooser fileChooser = new JFileChooser(defaultPath);
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Stellaris savefile", "sav", "text");
-        fileChooser.setFileFilter(filter);
-        int returnValue = fileChooser.showOpenDialog(null);
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            String saveFile = fileChooser.getSelectedFile().getAbsolutePath();
-            System.out.print("Savefile selected : " + saveFile + "\n");
-            return saveFile;
-        } else {
-            System.out.print("Error selecting savefile\n");
-            return null;
-        }
-    }
-
-    //Return the content of the gamestate into a String
-    public String readFile(String path, Charset encoding) throws IOException {
-        byte[] encoded = Files.readAllBytes(Paths.get(path));
-        return new String(encoded, encoding);
-    }
-
-    //Look through a String to return the substring between the @start and @end args
-    public String extractString(String data, String start, String end) {
-
-        int startIndex = data.indexOf(start);
-        int endIndex = data.indexOf(end);
-
-        if (startIndex >= 0 && endIndex >= 0) {
-            return data.substring(startIndex, endIndex).trim();
-        } else {
-            return null;
-        }
-    }
-
-    //Update the gamestate with the edited data
-    public void writeSavefile(String saveLocation, String data) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(saveLocation, "gamestate")));
-        writer.write(data);
-
-        writer.close();
-    }
+public class ArchiveUtils {
 
     //Extracting the gamestate and meta files from the savefile
     //https://www.baeldung.com/java-compress-and-uncompress
