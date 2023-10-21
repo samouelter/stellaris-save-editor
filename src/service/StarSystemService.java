@@ -1,13 +1,17 @@
+package service;
+
+import utils.CommonUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class StarSystemUtils {
+public class StarSystemService {
 
-    private static final FileUtils fileService = new FileUtils();
+    private static final CommonUtils commonUtils = new CommonUtils();
 
     //Extract the galactic_object part of the gamestate (the star systems), and return a list of solar system
     public List<String> toStarSystemList(String gamestate) {
-        String data = fileService.extractString(gamestate, "galactic_object={", "starbase_mgr=");
+        String data = commonUtils.extractString(gamestate, "galactic_object={", "starbase_mgr=");
         boolean isActive = true;
         List<String> starSystems = new ArrayList<>();
 
@@ -19,11 +23,11 @@ public class StarSystemUtils {
             current = i + "={";
             next = i + 1 + "={";
 
-            starSystem = fileService.extractString(data, current, next);
+            starSystem = commonUtils.extractString(data, current, next);
             i++;
 
             if (starSystem == null) {
-                starSystem = fileService.extractString(data, current, "\t}\n}");
+                starSystem = commonUtils.extractString(data, current, "\t}\n}");
                 if (starSystem == null) {
                     isActive = false;
                 } else {
@@ -43,12 +47,12 @@ public class StarSystemUtils {
     public static String swapStarSystem(String gamestate, int indexA, String A, int indexB, String B) {
 
         //Getting the map coordinates of the systems from the body
-        String coordinateA = fileService.extractString(A, "coordinate={", "type=");
-        String coordinateB = fileService.extractString(B, "coordinate={", "type=");
+        String coordinateA = commonUtils.extractString(A, "coordinate={", "type=");
+        String coordinateB = commonUtils.extractString(B, "coordinate={", "type=");
 
         //Getting the hyperlanes of the systems from the body
-        String hyperlaneA = fileService.extractString(A, "hyperlane={", "}\n \n\t\t}");
-        String hyperlaneB = fileService.extractString(B, "hyperlane={", "}\n \n\t\t}");
+        String hyperlaneA = commonUtils.extractString(A, "hyperlane={", "}\n \n\t\t}");
+        String hyperlaneB = commonUtils.extractString(B, "hyperlane={", "}\n \n\t\t}");
 
         //Swapping the coodinates and hyperlanes
         String newA = A.replace(coordinateA, coordinateB);
@@ -71,5 +75,8 @@ public class StarSystemUtils {
 
         return gamestate;
     }
+
+
+
 
 }
