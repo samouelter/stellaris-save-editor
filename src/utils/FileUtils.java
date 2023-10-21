@@ -48,12 +48,12 @@ public class FileUtils {
             System.out.println("Gamestate deleted");
         } else {
             System.out.println("Failed to delete gamestate file!");
-        };
+        }
         if (Files.deleteIfExists(new File(saveLocation, "meta").toPath())) {
             System.out.println("Meta deleted");
         } else {
             System.out.println("Failed to delete meta file!");
-        };
+        }
         Files.deleteIfExists(new File(saveLocation, "meta").toPath());
 
     }
